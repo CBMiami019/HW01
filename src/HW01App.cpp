@@ -39,7 +39,6 @@ class HW01App : public AppBasic {
 	
   private:
 	Surface* mySurface_; //The Surface object whose pixel array we will modify
-	gl::Texture* myTexture_; //The Texture object that we use to display our Surface in the window
 	
 	//Track how many frames we have shown, for animatino purposes
 	int frame_number_;
@@ -261,7 +260,6 @@ void HW01App::setup()
 	
 	//This is the setup that everyone needs to do
 	mySurface_ = new Surface(kTextureSize,kTextureSize,false);
-	myTexture_ = new gl::Texture(*mySurface_);
 	
 	//Setup for my blur function
 	Surface baby_picture(loadImage( loadResource(RES_BABY) ));
@@ -387,10 +385,7 @@ void HW01App::update()
 	//
 	
 	
-	
-	//Update the Texture we are drawing using the pixels we just wrote
-	(*myTexture_).update(*mySurface_,(*mySurface_).getBounds());
-	
+
 	//Only save the first frame of drawing as output
 	if(frame_number_ == 0){
 		writeImage("brinkmwj.png",*mySurface_);
@@ -409,7 +404,7 @@ void HW01App::update()
 void HW01App::draw()
 {
 	//Draw our texture to the screen, using graphics library
-	gl::draw(*myTexture_);
+	gl::draw(*mySurface_);
 }
 
 CINDER_APP_BASIC( HW01App, RendererGl )
